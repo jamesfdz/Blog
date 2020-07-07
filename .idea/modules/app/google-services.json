@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "1064582133114",
+    "firebase_url": "https://aioa-57f64.firebaseio.com",
+    "project_id": "aioa-57f64",
+    "storage_bucket": "aioa-57f64.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064582133114:android:c3597c68b7cd551f7192c3",
+        "android_client_info": {
+          "package_name": "com.codechez.aioa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1064582133114-pjg7svi7kspre02f59u3hkpajm19f76l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-oO-nsEOKnusodm2vfAHWMHEvXenjXtw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1064582133114-pjg7svi7kspre02f59u3hkpajm19f76l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064582133114:android:b4eccfea4d6f86377192c3",
+        "android_client_info": {
+          "package_name": "com.codechez.blog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1064582133114-bcp3i8mjhf642q3ft9lukrp7nm9cbqnv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.codechez.blog",
+            "certificate_hash": "fbe73cef4485a9b8c6c5eb7cdc0d2b110188b359"
+          }
+        },
+        {
+          "client_id": "1064582133114-pjg7svi7kspre02f59u3hkpajm19f76l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-oO-nsEOKnusodm2vfAHWMHEvXenjXtw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1064582133114-pjg7svi7kspre02f59u3hkpajm19f76l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
