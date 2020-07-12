@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".LoginActivity">
+    tools:context=".RegisterActivity">
 
     <ImageView
-        android:id="@+id/loginPageLogo"
+        android:id="@+id/registerPageLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -16,13 +16,12 @@
         android:layout_marginEnd="8dp"
         android:contentDescription="@string/logoforloginpage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:layout_constraintTop_toBottomOf="@+id/register_progress"
+        app:srcCompat="@drawable/register_logo" />
 
     <EditText
-        android:id="@+id/login_email"
+        android:id="@+id/register_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -39,10 +38,10 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginPageLogo" />
+        app:layout_constraintTop_toBottomOf="@+id/registerPageLogo" />
 
     <EditText
-        android:id="@+id/login_pass"
+        android:id="@+id/register_pass"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -59,10 +58,30 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_email" />
+        app:layout_constraintTop_toBottomOf="@+id/register_email" />
+
+    <EditText
+        android:id="@+id/register_confirm_pass_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/input_background"
+        android:ems="10"
+        android:hint="@string/confirm_password"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/placeholderWhite"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_pass" />
 
     <Button
-        android:id="@+id/login_btn"
+        android:id="@+id/register_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -71,36 +90,16 @@
         android:background="@color/colorAccent"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
-        android:text="@string/login_to_account"
+        android:text="@string/create_account"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_pass" />
-
-    <Button
-        android:id="@+id/login_reg_btn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="204dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="27dp"
-        android:background="@color/white"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:text="@string/need_a_new_account"
-        android:textAllCaps="false"
-        android:textColor="@color/colorAccent"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/register_confirm_pass_btn" />
 
     <ProgressBar
-        android:id="@+id/login_progress"
+        android:id="@+id/register_progress"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -110,5 +109,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/already_acnt_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="93dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="27dp"
+        android:background="@color/white"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:text="@string/already_acnt_btn"
+        android:textAllCaps="false"
+        android:textColor="@color/colorAccent"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
