@@ -129,39 +129,39 @@ public class SetupActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final String username = setupName.getText().toString();
-                setupProgress.setVisibility(View.VISIBLE);
 
-                if(isChanged){
+                if(!TextUtils.isEmpty(username) && mainImageUri != null){
 
-                    if(!TextUtils.isEmpty(username) && mainImageUri != null){
-                        //upload image to firebase storage
-                        user_id = mAuth.getCurrentUser().getUid();
+                    setupProgress.setVisibility(View.VISIBLE);
 
-                        StorageReference imagePath = mStorageRef.child("profile images").child(user_id + ".jpg");
+                    if(isChanged){
 
-                        imagePath.putFile(mainImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                if(task.isSuccessful()){
 
-                                    storeInFirestore(task, username);
+                            //upload image to firebase storage
+                            user_id = mAuth.getCurrentUser().getUid();
 
-                                }else{
-                                    String errMess = task.getException().getMessage();
-                                    Toast.makeText(SetupActivity.this, "Error: " + errMess, Toast.LENGTH_SHORT).show();
-                                    setupProgress.setVisibility(View.INVISIBLE);
+                            StorageReference imagePath = mStorageRef.child("profile images").child(user_id + ".jpg");
+
+                            imagePath.putFile(mainImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                    if(task.isSuccessful()){
+
+                                        storeInFirestore(task, username);
+
+                                    }else{
+                                        String errMess = task.getException().getMessage();
+                                        Toast.makeText(SetupActivity.this, "Error: " + errMess, Toast.LENGTH_SHORT).show();
+                                        setupProgress.setVisibility(View.INVISIBLE);
+                                    }
+
+
                                 }
-
-
-                            }
-                        });
-                    }else{
-                        storeInFirestore(null, username);
-                    }
-                }else{
-                    storeInFirestore(null, username);
+                            });
+                        }else{
+                            storeInFirestore(null, username);
+                        }
                 }
-
             }
         });
     }

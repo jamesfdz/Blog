@@ -10,7 +10,9 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private Toolbar mainToolbar;
+    private FloatingActionButton addPostBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +32,20 @@ public class MainActivity extends AppCompatActivity {
         mainToolbar = findViewById(R.id.custom_toolbar);
         setSupportActionBar(mainToolbar);
         getSupportActionBar().setTitle("Blog");
-        mainToolbar.getOverflowIcon().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.white), PorterDuff.Mode.SRC_ATOP);
+
+        addPostBtn = findViewById(R.id.add_post_btn);
+        addPostBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendToNewPost();
+            }
+        });
+
+    }
+
+    private void sendToNewPost() {
+        Intent sendToNewPost = new Intent(MainActivity.this, NewPostActivity.class);
+        startActivity(sendToNewPost);
     }
 
     @Override
