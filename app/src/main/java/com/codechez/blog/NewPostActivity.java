@@ -48,9 +48,10 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
+import id.zelory.compressor.Compressor;
+
 public class NewPostActivity extends AppCompatActivity {
 
-    private static final int MAX_LENGTH = 100;
     private static final String TAG = "NewPostActivity";
     private Toolbar newPostToolbar;
     private EditText newPostContent;
@@ -62,6 +63,7 @@ public class NewPostActivity extends AppCompatActivity {
     private FirebaseFirestore mFirestore;
     private FirebaseAuth mAuth;
     private String current_user_id;
+    private Bitmap compressedImageFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,19 +123,35 @@ public class NewPostActivity extends AppCompatActivity {
 
                     filepath.putFile(newPostUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
-                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        public void onComplete(@NonNull final Task<UploadTask.TaskSnapshot> task) {
                             if(task.isSuccessful()){
+
+                                Task<Uri> uri = task.getResult().getStorage().getDownloadUrl();
+                                while(!uri.isComplete());
+                                Uri actual_uri = uri.getResult();
+
+                                final String downloadUrl = actual_uri.toString();
 
 //                                compression starts
 
                                 File newImageFile = new File(newPostUri.getPath());
 
-                                //compress the image and put the thumbnail
-//                                byte[] thumbData = decodeFile(newImageFile);
-                                Bitmap b = BitmapFactory.decodeFile(newPostUri.getPath());
+                                try {
+                                    compressedImageFile = new Compressor(NewPostActivity.this)
+                                            .setMaxHeight(100)
+                                            .setMaxWidth(100)
+                                            .setQuality(2)
+                                            .compressToBitmap(newImageFile);
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
                                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                b.compress(Bitmap.CompressFormat.PNG, 75, baos);
+                                compressedImageFile.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                                 byte[] thumbData = baos.toByteArray();
+
+                                //compress the image and put the thumbnail
 
                                 UploadTask uploadTask = mStorageRef.child("post_images/thumbs")
                                         .child(randomName + ".jpg").putBytes(thumbData);
@@ -142,6 +160,30 @@ public class NewPostActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
+                                        String downloadThumbUri = taskSnapshot.getStorage().getDownloadUrl().toString();
+
+                                        Map<String, Object> postMap = new HashMap<>();
+                                        postMap.put("image_url", downloadUrl);
+                                        postMap.put("thumb", downloadThumbUri);
+                                        postMap.put("post_content", postContent);
+                                        postMap.put("user_id", current_user_id);
+                                        postMap.put("timestamp", FieldValue.serverTimestamp());
+
+                                        mFirestore.collection("Posts").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentReference> task) {
+
+                                                if(task.isSuccessful()){
+                                                    Toast.makeText(NewPostActivity.this, "Post added successfully", Toast.LENGTH_SHORT).show();
+                                                    finish();
+                                                }else{
+                                                    String errMess = task.getException().getMessage();
+                                                    Toast.makeText(NewPostActivity.this, "Error: " + errMess, Toast.LENGTH_SHORT).show();
+                                                }
+
+                                                newPostProgress.setVisibility(View.INVISIBLE);
+                                            }
+                                        });
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -152,35 +194,6 @@ public class NewPostActivity extends AppCompatActivity {
                                 });
 
 //                                Compression ends
-
-                                Task<Uri> uri = task.getResult().getStorage().getDownloadUrl();
-                                while(!uri.isComplete());
-                                Uri actual_uri = uri.getResult();
-                                String downloadUrl = actual_uri.toString();
-
-                                Map<String, Object> postMap = new HashMap<>();
-                                postMap.put("image_url", downloadUrl);
-                                postMap.put("post_content", postContent);
-                                postMap.put("user_id", current_user_id);
-                                postMap.put("timestamp", FieldValue.serverTimestamp());
-
-                                mFirestore.collection("Posts").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentReference> task) {
-
-                                        if(task.isSuccessful()){
-                                            Toast.makeText(NewPostActivity.this, "Post added successfully", Toast.LENGTH_SHORT).show();
-                                            Intent sendToMain = new Intent(NewPostActivity.this, MainActivity.class);
-                                            startActivity(sendToMain);
-                                            finish();
-                                        }else{
-                                            String errMess = task.getException().getMessage();
-                                            Toast.makeText(NewPostActivity.this, "Error: " + errMess, Toast.LENGTH_SHORT).show();
-                                        }
-
-                                        newPostProgress.setVisibility(View.INVISIBLE);
-                                    }
-                                });
 
                             }else{
                                 String errMess = task.getException().getMessage();
@@ -211,59 +224,5 @@ public class NewPostActivity extends AppCompatActivity {
                 Toast.makeText(this, "Error: " + error, Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-    //compressing file
-    private byte[] decodeFile(File f) {
-        Bitmap b = null;
-
-        //Decode image size
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inJustDecodeBounds = true;
-
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(f);
-            BitmapFactory.decodeStream(fis, null, o);
-            fis.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        int IMAGE_MAX_SIZE = 1024;
-        int scale = 1;
-        if (o.outHeight > IMAGE_MAX_SIZE || o.outWidth > IMAGE_MAX_SIZE) {
-            scale = (int) Math.pow(2, (int) Math.ceil(Math.log(IMAGE_MAX_SIZE /
-                    (double) Math.max(o.outHeight, o.outWidth)) / Math.log(0.5)));
-        }
-
-        //Decode with inSampleSize
-        BitmapFactory.Options o2 = new BitmapFactory.Options();
-        o2.inSampleSize = scale;
-        try {
-            fis = new FileInputStream(f);
-            b = BitmapFactory.decodeStream(fis, null, o2);
-            fis.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Log.d(TAG, "Width :" + b.getWidth() + " Height :" + b.getHeight());
-
-
-        byte[] data = new byte[0];
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            b.compress(Bitmap.CompressFormat.PNG, 75, baos);
-            data = baos.toByteArray();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return data;
     }
 }

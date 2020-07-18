@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -12,6 +14,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.codechez.blog.Fragments.AccountFragment;
+import com.codechez.blog.Fragments.HomeFragment;
+import com.codechez.blog.Fragments.NotificationsFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Toolbar mainToolbar;
     private FloatingActionButton addPostBtn;
+    private BottomNavigationView mainBottomNav;
+    private HomeFragment homeFragment;
+    private NotificationsFragment notificationsFragment;
+    private AccountFragment accountFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +48,36 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sendToNewPost();
+            }
+        });
+
+        mainBottomNav = findViewById(R.id.main_bottom_nav);
+
+        // Fragments initializations
+        homeFragment = new HomeFragment();
+        notificationsFragment = new NotificationsFragment();
+        accountFragment = new AccountFragment();
+
+        replaceFragment(homeFragment);
+
+        mainBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()){
+                    case R.id.bottom_home:
+                        replaceFragment(homeFragment);
+                        return true;
+                    case R.id.bottom_notifications:
+                        replaceFragment(notificationsFragment);
+                        return true;
+                    case R.id.bottom_account:
+                        replaceFragment(accountFragment);
+                        return true;
+                    default:
+                        return false;
+
+                }
             }
         });
 
@@ -102,5 +142,13 @@ public class MainActivity extends AppCompatActivity {
         Intent sendToLogin = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(sendToLogin);
         finish();
+    }
+
+    private void replaceFragment(Fragment fragment){
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_container, fragment);
+        fragmentTransaction.commit();
+
     }
 }

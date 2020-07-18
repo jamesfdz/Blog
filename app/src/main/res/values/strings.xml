@@ -16,4 +16,8 @@
     <string name="add_your_content">Please add your content</string>
     <string name="post_blog">Post Blog</string>
     <string name="post_image">post image</string>
+    <string name="floating_button">Floating Button</string>
+    <string name="bottom_home_text">Home</string>
+    <string name="bottom_notifications_text">Notifications</string>
+    <string name="bottom_account_text">Account</string>
 </resources>

@@ -61,6 +61,7 @@ public class SetupActivity extends AppCompatActivity {
         setupToolbar = findViewById(R.id.custom_toolbar);
         setSupportActionBar(setupToolbar);
         getSupportActionBar().setTitle("Account Setup");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setupProgress = findViewById(R.id.setup_progress);
 
@@ -199,8 +200,6 @@ public class SetupActivity extends AppCompatActivity {
     }
 
     private void sendToMain() {
-        Intent sendToMain = new Intent(SetupActivity.this, MainActivity.class);
-        startActivity(sendToMain);
         finish();
     }
 
