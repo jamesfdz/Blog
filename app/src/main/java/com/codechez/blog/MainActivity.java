@@ -43,43 +43,46 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mainToolbar);
         getSupportActionBar().setTitle("Blog");
 
-        addPostBtn = findViewById(R.id.add_post_btn);
-        addPostBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendToNewPost();
-            }
-        });
-
-        mainBottomNav = findViewById(R.id.main_bottom_nav);
-
-        // Fragments initializations
-        homeFragment = new HomeFragment();
-        notificationsFragment = new NotificationsFragment();
-        accountFragment = new AccountFragment();
-
-        replaceFragment(homeFragment);
-
-        mainBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                switch (item.getItemId()){
-                    case R.id.bottom_home:
-                        replaceFragment(homeFragment);
-                        return true;
-                    case R.id.bottom_notifications:
-                        replaceFragment(notificationsFragment);
-                        return true;
-                    case R.id.bottom_account:
-                        replaceFragment(accountFragment);
-                        return true;
-                    default:
-                        return false;
-
+        if(mAuth.getCurrentUser() != null){
+            addPostBtn = findViewById(R.id.add_post_btn);
+            addPostBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sendToNewPost();
                 }
-            }
-        });
+            });
+
+            mainBottomNav = findViewById(R.id.main_bottom_nav);
+
+            // Fragments initializations
+            homeFragment = new HomeFragment();
+            notificationsFragment = new NotificationsFragment();
+            accountFragment = new AccountFragment();
+
+            replaceFragment(homeFragment);
+
+            mainBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                    switch (item.getItemId()){
+                        case R.id.bottom_home:
+                            replaceFragment(homeFragment);
+                            return true;
+                        case R.id.bottom_notifications:
+                            replaceFragment(notificationsFragment);
+                            return true;
+                        case R.id.bottom_account:
+                            replaceFragment(accountFragment);
+                            return true;
+                        default:
+                            return false;
+
+                    }
+                }
+            });
+        }
+
 
     }
 

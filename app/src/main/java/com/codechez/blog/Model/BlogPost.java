@@ -1,17 +1,20 @@
 package com.codechez.blog.Model;
 
 
+import com.codechez.blog.BlogPostId;
 import com.google.firebase.Timestamp;
 
-public class BlogPost {
+import java.util.Date;
+
+public class BlogPost extends com.codechez.blog.BlogPostId {
 
     public String image_url, post_content, thumb, user_id;
 
-    public Timestamp timestamp;
+    public Date timestamp;
 
     public BlogPost(){}
 
-    public BlogPost(String image_url, String post_content, String thumb, String user_id, Timestamp timestamp) {
+    public BlogPost(String image_url, String post_content, String thumb, String user_id, Date timestamp) {
         this.image_url = image_url;
         this.post_content = post_content;
         this.thumb = thumb;
@@ -51,11 +54,11 @@ public class BlogPost {
         this.user_id = user_id;
     }
 
-    public Timestamp getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 }

@@ -37,7 +37,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Username"
                 android:textColor="@color/black"
                 android:textStyle="normal"
                 app:layout_constraintStart_toEndOf="@+id/posts_user_img"
@@ -48,7 +47,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Jan 20, 2020"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/posts_user_img"
                 app:layout_constraintTop_toBottomOf="@+id/posts_username" />
@@ -56,13 +54,13 @@
             <ImageView
                 android:id="@+id/posts_mainImg"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:layout_marginTop="16dp"
                 android:scaleType="centerCrop"
+                android:src="@drawable/post_dummy"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/posts_user_img"
-                app:srcCompat="@drawable/postImage_dummy" />
+                app:layout_constraintTop_toBottomOf="@+id/posts_user_img" />
 
             <TextView
                 android:id="@+id/posts_content"
@@ -71,14 +69,75 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="Lorem ipsum dolor sit amet, soluta regione urbanitas vis in, qui elit populo ut. "
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/posts_mainImg" />
+
+            <ImageView
+                android:id="@+id/posts_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/like_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/posts_content" />
+
+            <TextView
+                android:id="@+id/posts_like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/posts_like"
+                app:layout_constraintTop_toBottomOf="@+id/posts_content"
+                app:layout_constraintVertical_bias="0.050000012" />
+
+            <ImageView
+                android:id="@+id/posts_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="8dp"
+                android:rotation="-25"
+                android:src="@drawable/share_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/posts_like_count"
+                app:layout_constraintTop_toBottomOf="@+id/posts_content"
+                app:layout_constraintVertical_bias="0.050000012" />
+
+            <ImageView
+                android:id="@+id/posts_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/posts_comment_count"
+                app:layout_constraintTop_toBottomOf="@+id/posts_content"
+                android:src="@drawable/comment_icon" />
+
+            <TextView
+                android:id="@+id/posts_comment_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/posts_content"
+                app:layout_constraintVertical_bias="0.050000012" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
